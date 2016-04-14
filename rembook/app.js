@@ -4,11 +4,30 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mysql = require('mysql');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+//var routes = require('./routes/index');
+//var users = require('./routes/users');
 
 var app = express();
+
+var connection = mysql.createConnection(
+    {
+      host: 'localhost',
+      user: 'root',
+      password: 'anip1234',
+      database: 'rembook'
+    }
+);
+
+connection.connect(function(err){
+  if(err){
+    console.log('Error! ', err);
+  }
+  else{
+    console.log('Successful connection!');
+  }
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +41,67 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', routes);
-app.use('/users', users);
+app.get('/:id', function(req, res){
+
+    //res.send('requested id ' + req.params.id);
+    var id=req.params.id;
+    var data={};
+
+    var queryString1 = 'SELECT * from student where student_id = ' + id;
+    var queryString2 = 'SELECT * from message where ID = ' + id;
+    var queryString3 = 'SELECT * from comment where post_about = ' + id;
+
+    connection.query(queryString1, function(err, rows, fields){
+      if(err){
+        console.log('Error while querying! ', err);
+        res.send(500, err);
+      }
+
+      else{
+        /*console.log('rows');
+        for(var i in rows){
+          console.log(rows[i]);
+        }
+        console.log('fields', fields);*/
+        data.studentDetails=rows;
+      }
+    });
+
+    connection.query(queryString2, function(err, rows, fields){
+      if(err){
+        console.log('Error while querying! ', err);
+        res.send(500, err);
+      }
+
+      else{
+        /*console.log('rows');
+        for(var i in rows){
+          console.log(rows[i]);
+        }
+        console.log('fields', fields);*/
+        data.studentMessage=rows;
+      }
+    });
+
+    connection.query(queryString3, function(err, rows, fields){
+      if(err){
+        console.log('Error while querying! ', err);
+        res.send(500, err);
+      }
+
+      else{
+        /*console.log('rows');
+        for(var i in rows){
+          console.log(rows[i]);
+        }
+        console.log('fields', fields);*/
+        data.studentComments=rows;
+
+        res.send(200, data);
+      }
+    });
+
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

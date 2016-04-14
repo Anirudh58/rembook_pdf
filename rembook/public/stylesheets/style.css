@@ -6,3 +6,16 @@ body {
 a {
   color: #00B7FF;
 }
+
+#idbox{
+  width: 200px;
+  position: relative;
+  left:700px;
+}
+
+#submit{
+  position: relative;
+  left: 770px;
+  top:10px;
+
+}
