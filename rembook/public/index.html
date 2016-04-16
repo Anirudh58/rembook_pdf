@@ -82,10 +82,10 @@
             <hr>
             <br>
 
-            <div class="rems">
+            <div>
                 <h3><b><center> What Others Said About You.. </center></b></h3>
 
-                <div class="col-md-10 col-md-offset-1" ng-repeat="rem in main.rems">
+                <div class="col-md-10 col-md-offset-1" ng-repeat="rem in main.rems track by $index">
                     <div class="row">
                         <div class="col-md-2">
                             <img ng-src="https://www.pragyan.org/~manix/rembookimages/{{rem.post_author}}.jpg" onError="this.src='images/anon.png'" class="img-circle" height="120" width="120">
@@ -114,12 +114,13 @@
 
                     <hr><br>
 
+                    <div ng-show="$index==main.rems.length-1">
+                        <p class="footer"><center>  Made with &hearts; by Delta Force  </center> </p>
+                    </div>
+
                 </div>
+
             </div>
-
-
-
-
 
         </div>
 
