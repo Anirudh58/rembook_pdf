@@ -40,6 +40,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/fonts/', express.static(path.join(__dirname, 'public/fonts')));
 
 app.get('/:id', function(req, res) {
 
@@ -51,6 +52,7 @@ app.get('/:id', function(req, res) {
     var queryString1 = 'SELECT * from student where student_id = ' + id;
     var queryString2 = 'SELECT * from message where ID = ' + id;
     var queryString3 = 'SELECT * from comment where post_about = ' + id;
+    var queryString4 = 'SELECT student_name, student_id from student';
 
     connection.query(queryString1, function (err, rows, fields) {
         if (err) {
@@ -80,6 +82,17 @@ app.get('/:id', function(req, res) {
 
         else{
             data.studentComments=rows;
+        }
+    });
+
+    connection.query(queryString4, function(err, rows, fields){
+        if(err){
+            console.log('Error while querying! ', err);
+            res.send(500, err);
+        }
+
+        else{
+            data.students=rows;
             res.send(200, data);
         }
     });

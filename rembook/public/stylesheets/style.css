@@ -7,6 +7,19 @@ a {
   color: #00B7FF;
 }
 
+hr {
+  display: block;
+  position: relative;
+  top:20px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-style: inset;
+  border-width: 1px;
+
+}
+
 #idbox{
   width: 200px;
   position: relative;
@@ -15,7 +28,39 @@ a {
 
 #submit{
   position: relative;
-  left: 770px;
-  top:10px;
+  left: 920px;
+  top:-34px;
 
 }
+
+#pdfbox{
+  width: 1200px;
+  margin: auto;
+  background-color: #ededed;
+}
+
+
+.description{
+  font-size: 16px;
+  padding: 10px;
+  position: relative;
+  top: 60px;
+}
+
+.hostels{
+  font-size: 15px;
+  padding: 10px;
+  position: relative;
+}
+
+.question{
+  font-size: 20px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.answer{
+  font-size: 19px;
+  padding: 10px;
+}
+

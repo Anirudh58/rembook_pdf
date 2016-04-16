@@ -34,15 +34,28 @@ app.factory('MainFactory', ['$http', function($http){
 
 app.controller('MainController', ['MainFactory', function(MainFactory, $scope){
 
-    var data={};
+    var vm=this;
+    vm.data={};
+    vm.dataRecieved=false;
+    vm.rollToNameMap={};
+    vm.rems=[];
+    vm.rem={};
 
     $('#submit').click(function(){
         var id = $('#idbox').val();
 
         MainFactory.getUserData(id).success(function(json){
             console.log('Response from getUserdata', json);
+            vm.data=json;
+            vm.dataRecieved=true;
 
+            for(var i=0;i<vm.data.students.length; i++){
+                vm.rollToNameMap[vm.data.students[i].student_id] = vm.data.students[i].student_name;
+            }
+            console.log('Map');
+            console.log(vm.rollToNameMap);
 
+            vm.rems=vm.data.studentComments;
         })
     })
 }]);
