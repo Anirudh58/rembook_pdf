@@ -4,12 +4,12 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var Q = require('q');
+var app = express();
 var mysql = require('mysql');
 
 //var routes = require('./routes/index');
 //var users = require('./routes/users');
-
-var app = express();
 
 var connection = mysql.createConnection(
     {
@@ -21,12 +21,12 @@ var connection = mysql.createConnection(
 );
 
 connection.connect(function(err){
-  if(err){
-    console.log('Error! ', err);
-  }
-  else{
-    console.log('Successful connection!');
-  }
+    if(err){
+        console.log('Error! ', err);
+    }
+    else{
+        console.log('Successful connection!');
+    }
 });
 
 // view engine setup
@@ -41,28 +41,59 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/:id', function(req, res){
+app.get('/:id', function(req, res) {
 
     //res.send('requested id ' + req.params.id);
-    var id=req.params.id;
-    var data={};
+    var id = req.params.id;
+
+    var data = {};
 
     var queryString1 = 'SELECT * from student where student_id = ' + id;
     var queryString2 = 'SELECT * from message where ID = ' + id;
     var queryString3 = 'SELECT * from comment where post_about = ' + id;
 
-    connection.query(queryString1, function(err, rows, fields){
-      if(err){
-        console.log('Error while querying! ', err);
-        res.send(500, err);
-      }
+    connection.query(queryString1, function (err, rows, fields) {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            data.studentDetails=rows;
+        }
 
+    });
+
+    connection.query(queryString2, function(err, rows, fields){
+        if(err){
+            console.log(err);
+        }
+
+        else{
+            data.studentMessage=rows;
+        }
+    });
+
+    connection.query(queryString3, function(err, rows, fields){
+        if(err){
+            console.log('Error while querying! ', err);
+            res.send(500, err);
+        }
+
+        else{
+            data.studentComments=rows;
+            res.send(200, data);
+        }
+    });
+
+});
+
+
+        /*
       else{
-        /*console.log('rows');
+        /!*console.log('rows');
         for(var i in rows){
           console.log(rows[i]);
         }
-        console.log('fields', fields);*/
+        console.log('fields', fields);*!/
         data.studentDetails=rows;
       }
     });
@@ -74,11 +105,11 @@ app.get('/:id', function(req, res){
       }
 
       else{
-        /*console.log('rows');
+        /!*console.log('rows');
         for(var i in rows){
           console.log(rows[i]);
         }
-        console.log('fields', fields);*/
+        console.log('fields', fields);*!/
         data.studentMessage=rows;
       }
     });
@@ -90,11 +121,11 @@ app.get('/:id', function(req, res){
       }
 
       else{
-        /*console.log('rows');
+        /!*console.log('rows');
         for(var i in rows){
           console.log(rows[i]);
         }
-        console.log('fields', fields);*/
+        console.log('fields', fields);*!/
         data.studentComments=rows;
 
         res.send(200, data);
@@ -102,6 +133,8 @@ app.get('/:id', function(req, res){
     });
 
 });
+
+connection.end();*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -34,6 +34,8 @@ app.factory('MainFactory', ['$http', function($http){
 
 app.controller('MainController', ['MainFactory', function(MainFactory, $scope){
 
+    var data={};
+
     $('#submit').click(function(){
         var id = $('#idbox').val();
 
