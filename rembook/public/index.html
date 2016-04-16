@@ -15,36 +15,42 @@
         <div class="container" id="pdfbox" ng-show="main.dataRecieved">
             <h1 ng-show="main.data.studentDetails[0].student_name"><b><center> {{ main.data.studentDetails[0].student_name }} ( {{ main.data.studentDetails[0].student_id }}
                 <span ng-show="main.data.studentDetails[0].student_department">, {{ main.data.studentDetails[0].student_department }} </span>)  </center></b></h1>
+            <br><br>
+            <div class="row">
+                <div class="col-md-3 col-md-offset-1">
+                    <div class="description" ng-show="main.data.studentDetails[0].student_address">
+                        <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_address }}
+                    </div>
+                    <div class="description" ng-show="main.data.studentDetails[0].student_email">
+                        <span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_email }}
+                    </div>
+                    <div class="description" ng-show="main.data.studentDetails[0].student_landline">
+                        <span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_landline }}
+                    </div>
+                    <div class="description" ng-show="main.data.studentDetails[0].student_dob_date">
+                        <span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_dob_date }} /
+                        {{ main.data.studentDetails[0].student_dob_month }} /
+                        {{ main.data.studentDetails[0].student_dob_year }}
+                    </div>
+                </div>
 
-            <div class="col-md-4 col-md-offset-1">
-                <div class="description" ng-show="main.data.studentDetails[0].student_address">
-                    <span class="glyphicon glyphicon-home"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_address }}
+                <div class="col-md-4">
+                    <img ng-src="https://www.pragyan.org/~manix/rembookimages/{{main.data.studentDetails[0].student_id}}.jpg" onError="this.src='images/anon.png'" class="img-circle" height="300" width="300">
                 </div>
-                <div class="description" ng-show="main.data.studentDetails[0].student_email">
-                    <span class="glyphicon glyphicon-envelope"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_email }}
-                </div>
-                <div class="description" ng-show="main.data.studentDetails[0].student_landline">
-                    <span class="glyphicon glyphicon-earphone"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_landline }}
-                </div>
-                <div class="description" ng-show="main.data.studentDetails[0].student_dob_date">
-                    <span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp; {{ main.data.studentDetails[0].student_dob_date }} /
-                    {{ main.data.studentDetails[0].student_dob_month }} /
-                    {{ main.data.studentDetails[0].student_dob_year }}
+
+                <div class="col-md-4" style="position:relative; left: 40px;">
+                    <h2><b> Hostels </b></h2>
+
+                    <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_1 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_1}}</div>
+                    <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_2 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_2}}</div>
+                    <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_3 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_3}}</div>
+                    <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_4 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_4}}</div>
+
                 </div>
             </div>
 
-            <div class="col-md-4 col-md-offset-3" style="position:relative; left: 40px;">
-                <h2><b> Hostels </b></h2>
+            <hr><br>
 
-                <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_1 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_1}}</div>
-                <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_2 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_2}}</div>
-                <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_3 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_3}}</div>
-                <div class="hostels"> {{ main.data.studentDetails[0].student_hostel_4 | uppercase }} &nbsp;{{ main.data.studentDetails[0].student_room_4}}</div>
-
-            </div>
-
-            <hr>
-            <br>
             <div class="row">
                 <div class="finalrem">
                     <h3><b><center> My Final Rem </center></b></h3>
@@ -79,8 +85,16 @@
                 <h3><b><center> What Others Said About You.. </center></b></h3>
 
                 <div class="col-md-10 col-md-offset-1" ng-repeat="rem in main.rems">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <img ng-src="https://www.pragyan.org/~manix/rembookimages/{{rem.post_author}}.jpg" onError="this.src='images/anon.png'" class="img-circle" height="120" width="120">
+                        </div>
 
-                    <h3 style="position:relative; left: 10px;"><b> {{ main.rollToNameMap[rem.post_author] }} ({{rem.post_author}})</b> <br> says: </h3>
+                        <div class="col-md-6">
+                            <h3><b> {{ main.rollToNameMap[rem.post_author] }} ({{rem.post_author}})</b> <br> says: </h3>
+                        </div>
+                    </div>
+                    <br>
 
                     <div ng-show="rem.post_attributes">
                         <div class="question"> The first thing that strikes to you about </div>

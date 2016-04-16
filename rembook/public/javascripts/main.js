@@ -32,14 +32,16 @@ app.factory('MainFactory', ['$http', function($http){
 
 }]);
 
-app.controller('MainController', ['MainFactory', function(MainFactory, $scope){
+app.controller('MainController', ['MainFactory', '$scope', '$location',  function(MainFactory, $scope, $location){
 
     var vm=this;
     vm.data={};
     vm.dataRecieved=false;
     vm.rollToNameMap={};
     vm.rems=[];
-    vm.rem={};
+
+    console.log($location.path());
+    console.log($location.search());
 
     $('#submit').click(function(){
         var id = $('#idbox').val();

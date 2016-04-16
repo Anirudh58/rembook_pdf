@@ -8,8 +8,8 @@ var Q = require('q');
 var app = express();
 var mysql = require('mysql');
 
-//var routes = require('./routes/index');
-//var users = require('./routes/users');
+var routes = require('./routes/index');
+var users = require('./routes/users');
 
 var connection = mysql.createConnection(
     {
@@ -41,6 +41,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/fonts/', express.static(path.join(__dirname, 'public/fonts')));
+app.use('/users', users);
 
 app.get('/:id', function(req, res) {
 
@@ -98,56 +99,6 @@ app.get('/:id', function(req, res) {
     });
 
 });
-
-
-        /*
-      else{
-        /!*console.log('rows');
-        for(var i in rows){
-          console.log(rows[i]);
-        }
-        console.log('fields', fields);*!/
-        data.studentDetails=rows;
-      }
-    });
-
-    connection.query(queryString2, function(err, rows, fields){
-      if(err){
-        console.log('Error while querying! ', err);
-        res.send(500, err);
-      }
-
-      else{
-        /!*console.log('rows');
-        for(var i in rows){
-          console.log(rows[i]);
-        }
-        console.log('fields', fields);*!/
-        data.studentMessage=rows;
-      }
-    });
-
-    connection.query(queryString3, function(err, rows, fields){
-      if(err){
-        console.log('Error while querying! ', err);
-        res.send(500, err);
-      }
-
-      else{
-        /!*console.log('rows');
-        for(var i in rows){
-          console.log(rows[i]);
-        }
-        console.log('fields', fields);*!/
-        data.studentComments=rows;
-
-        res.send(200, data);
-      }
-    });
-
-});
-
-connection.end();*/
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
