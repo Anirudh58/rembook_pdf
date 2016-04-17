@@ -1,5 +1,13 @@
 var app = angular.module('rembook', []);
 
+app.filter('unsafe', function($sce) {
+    return function(val) {
+        return $sce.trustAsHtml(val);
+    };
+
+});
+
+
 app.factory('MainFactory', ['$http', function($http){
 
     var getUserData = function(id){
@@ -54,8 +62,6 @@ app.controller('MainController', ['MainFactory', '$scope', '$location',  functio
             for(var i=0;i<vm.data.students.length; i++){
                 vm.rollToNameMap[vm.data.students[i].student_id] = vm.data.students[i].student_name;
             }
-            console.log('Map');
-            console.log(vm.rollToNameMap);
 
             vm.rems=vm.data.studentComments;
         })

@@ -10,8 +10,10 @@
     </head>
     <body ng-controller="MainController as main">
 
-        <input type="text" class="form-control" id="idbox" placeholder="Roll Number">
-        <button class="btn btn-default" id="submit"> Go! </button>
+        <div ng-hide="main.dataRecieved">
+            <input type="text" class="form-control" id="idbox" placeholder="Roll Number">
+            <button class="btn btn-default" id="submit"> Go! </button>
+        </div>
 
         <div class="container" id="pdfbox" ng-show="main.dataRecieved">
             <h1 ng-show="main.data.studentDetails[0].student_name"><b><center> {{ main.data.studentDetails[0].student_name }} ( {{ main.data.studentDetails[0].student_id }}
@@ -56,24 +58,29 @@
                 <div class="finalrem">
                     <h3><b><center> My Final Rem </center></b></h3>
                     <div class="col-md-10 col-md-offset-1" style="position:relative; left: 10px;">
-                        <!--<div class="question" ng-show="main.data.studentMessage[0].aboutme"> About me </div>
-                        <div class="answer"> {{ main.data.studentMessage[0].aboutme }}</div>-->
+
+                        <!--<div ng-show="main.data.studentMessage[0].aboutme">
+                            <div class="question"> About me </div>
+                            <div class="answer"> <p ng-bind-html="main.data.studentMessage[0].aboutme | unsafe"> </p></div>
+                        </div>-->
 
                         <div ng-show="main.data.studentMessage[0].attributes">
                             <div class="question"> My Attributes </div>
-                            <div class="answer"> {{ main.data.studentMessage[0].attributes }}</div>
+                            <div class="answer"> <p ng-bind-html="main.data.studentMessage[0].attributes | unsafe"> </p></div>
                         </div>
 
                         <br>
 
                         <div ng-show="main.data.studentMessage[0].nicknames">
                             <div class="question"> My Nicknames </div>
-                            <div class="answer"> {{ main.data.studentMessage[0].nicknames }}</div>
+                            <div class="answer"> <p ng-bind-html="main.data.studentMessage[0].nicknames | unsafe"> </p></div>
                         </div>
 
+                        <!--<div ng-show="main.data.studentMessage[0].punchlines">
+                            <div class="question"> My Punchlines </div>
+                            <div class="answer"> <p ng-bind-html="main.data.studentMessage[0].punchlines | unsafe"> </p></div>
+                        </div>-->
 
-                        <!--<div class="question" ng-show="main.data.studentMessage[0].punchlines"> My Punchlines </div>
-                        <div class="answer"> {{ main.data.studentMessage[0].punchlines }}</div>-->
                     </div>
                 </div>
             </div>
@@ -99,17 +106,17 @@
 
                     <div ng-show="rem.post_attributes">
                         <div class="question"> The first thing that strikes to you about </div>
-                        <div class="answer"> {{ rem.post_attributes }}</div>
+                        <div class="answer"> <p ng-bind-html="rem.post_attributes"> </p></div>
                     </div>
 
                     <div ng-show="rem.post_punchlines">
                         <div class="question"> Frequently used words by </div>
-                        <div class="answer"> {{ rem.post_punchlines }}</div>
+                        <div class="answer"> <p ng-bind-html="rem.post_punchlines | unsafe"> </p></div>
                     </div>
 
                     <div ng-show="rem.post_memories">
                         <div class="question"> A few words about  </div>
-                        <div class="answer"> {{ rem.post_memories }}</div>
+                        <div class="answer"> <p ng-bind-html="rem.post_memories | unsafe"> </p> </div>
                     </div>
 
                     <hr><br>

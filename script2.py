@@ -9,38 +9,40 @@ from email import Encoders
 import os
 import time
 import smtplib
+import mandrill
+import base64
 
 def mail(to, attach):
-	gmail_user = "anirudh.jan97@gmail.com"
-	gmail_pwd = "Cannot be hacked"
-	msg = MIMEMultipart()
+	file = open(attach)
+	encoded = base64.b64encode(file.read())
+	file.close()
 
-	msg['From'] = gmail_user
-	msg['To'] = to
-	msg['Subject'] = "REMBOOK_PDF"
+	try:
+		mandrill_client = mandrill.Mandrill('k2ITAgHQ9Aa5itTB49sScQ')
+		message = {
+			'to': [{'email': to,
+					'type': 'to'}],
+			'merge_vars': [{'rcpt': to}],
+			'tags': ['rembook'],
+			'from_email': 'anirudh.jan97@gmail.com',
+			'from_name': 'Anirudh',
+			'subject': 'Rembook pdf',
+			'attachments': [{'content': encoded,
+							'name': attach,
+							'type': 'application/pdf'}]
+		}
+		result = mandrill_client.messages.send(message=message, async=False, ip_pool='Main Pool')
+	except mandrill.Error, e:
+		print 'A mandrill error occurred: %s - %s' % (e.__class__. e)
+		raise
+		
 
-	text = "A copy of your rembook is attached below :) "
-	msg.attach(MIMEText(text))
-
-	part = MIMEBase('application', 'octet-stream')
-	part.set_payload(open(attach, 'rb').read())
-	Encoders.encode_base64(part)
-	part.add_header('Content-Disposition','attachment; filename="%s"' % os.path.basename(attach))
-	msg.attach(part)
-
-	mailServer = smtplib.SMTP("smtp.gmail.com", 587)
-	mailServer.ehlo()
-	mailServer.starttls()
-	mailServer.ehlo()
-	mailServer.login(gmail_user, gmail_pwd)
-	mailServer.sendmail(gmail_user, to, msg.as_string())
-	mailServer.close()
  
  
 def execute(script, args):
 		  browser.execute('executePhantomScript', {'script': script, 'args' : args })
 
-with open("test") as file:
+with open("output") as file:
 	for line in file:
 		roll_no =  line.split(",")[0]
 		email = line.split(",")[1]
