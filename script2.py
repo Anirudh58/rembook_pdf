@@ -48,7 +48,7 @@ def compress(file):
 def execute(script, args):
 		  browser.execute('executePhantomScript', {'script': script, 'args' : args })
 
-with open("test") as file:
+with open("input.txt") as file:
 	for line in file:
 		roll_no =  line.split(",")[0]
 		email = line.split(",")[1]
