@@ -13,7 +13,7 @@ import mandrill
 import base64
 import subprocess
 
-def mail(to, attach):
+def mail(to, attach, name):
 	file = open(attach)
 	encoded = base64.b64encode(file.read())
 	file.close()
@@ -25,8 +25,9 @@ def mail(to, attach):
 					'type': 'to'}],
 			'merge_vars': [{'rcpt': to}],
 			'tags': ['rembook'],
-			'from_email': 'anirudh.jan97@gmail.com',
-			'from_name': 'Anirudh',
+			'from_email': 'contact@deltaforce.club',
+			'from_name': 'Delta Force',
+			'html': "<p> Dear " + name + ", <br> It's been almost a year since you graduated from NITT, a year without Festember, Pragyan, and NITTFEST. A year removed from dinner at D2, coffee at Staff C, and of course, the scorching heat. While you may have reminisced about these and other wonderful memories from a simpler time, know that we at NITT have missed you more than you can imagine. Even though you've graduated, know that you will always make NITT proud, wherever you are in the world. So while you make big decisions in both life and business, here's a little bit of magic from back home in Trichy :) <br><br> Delta Force </p>",
 			'subject': 'Rembook pdf',
 			'attachments': [{'content': encoded,
 							'name': attach,
@@ -39,7 +40,7 @@ def mail(to, attach):
 		
 
 def compress(file):
-	print 'compressing' + file
+	print 'compressing ' + file
 	arg1= '-sOutputFile=' +"v"+ file
 	p = subprocess.Popen(['/usr/bin/gs', '-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4', '-dPDFSETTINGS=/screen', '-dNOPAUSE', '-dBATCH',  '-dQUIET', str(arg1), file], stdout=subprocess.PIPE)
 	print (p.communicate())
@@ -51,9 +52,10 @@ with open("test") as file:
 	for line in file:
 		roll_no =  line.split(",")[0]
 		email = line.split(",")[1]
-		email = email[1:-2]
+		name = line.split(",")[2]
 		print roll_no
 		print email
+		print name
 		browser = webdriver.PhantomJS()
 		browser.set_window_size(1124,850)
 		browser.command_executor._commands['executePhantomScript'] = ('POST','/session/$sessionId/phantom/execute')
@@ -68,4 +70,4 @@ with open("test") as file:
 		execute(render, [])
 		compress(pdfname)
 		pdfname = "v"+pdfname
-		mail(str(email), pdfname)
+		mail(str(email), pdfname, name)
