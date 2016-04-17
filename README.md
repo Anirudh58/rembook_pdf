@@ -4,7 +4,6 @@
 
 <ul>
   <li> Start node server </li>
-  <li> Execute the sql script </li>
   <li> Output file contains roll numbers and emails of recepients </li>
-  <li> Run script.py </li>
+  <li> Run script2.py </li>
 <ul>
