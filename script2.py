@@ -11,6 +11,7 @@ import time
 import smtplib
 import mandrill
 import base64
+import subprocess
 
 def mail(to, attach):
 	file = open(attach)
@@ -37,12 +38,16 @@ def mail(to, attach):
 		raise
 		
 
- 
+def compress(file):
+	print 'compressing' + file
+	arg1= '-sOutputFile=' +"v"+ file
+	p = subprocess.Popen(['/usr/bin/gs', '-sDEVICE=pdfwrite', '-dCompatibilityLevel=1.4', '-dPDFSETTINGS=/screen', '-dNOPAUSE', '-dBATCH',  '-dQUIET', str(arg1), file], stdout=subprocess.PIPE)
+	print (p.communicate())
  
 def execute(script, args):
 		  browser.execute('executePhantomScript', {'script': script, 'args' : args })
 
-with open("output") as file:
+with open("test") as file:
 	for line in file:
 		roll_no =  line.split(",")[0]
 		email = line.split(",")[1]
@@ -61,4 +66,6 @@ with open("output") as file:
 		pdfname = roll_no + ".pdf"
 		render = '''this.render("%s")''' % pdfname
 		execute(render, [])
+		compress(pdfname)
+		pdfname = "v"+pdfname
 		mail(str(email), pdfname)
